@@ -42,3 +42,11 @@ func loadAllOperations() (Operations, error) {
 	}
 	return operations, nil
 }
+
+func alterAssets(amount int) error {
+	return nil
+}
+
+func loadAssets() (Assets, error) {
+	return Assets{}, nil
+}
