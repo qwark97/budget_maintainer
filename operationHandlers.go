@@ -40,7 +40,6 @@ func removeOperation(w http.ResponseWriter, r *http.Request) {
 	var idToRemove int
 	w.Header().Add("Content-Type", "application/json")
 	vars := mux.Vars(r)
-	// Validation privided by mux
 	id, _ := vars["id"]
 	idToRemove, _ = strconv.Atoi(id)
 
