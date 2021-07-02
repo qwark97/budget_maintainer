@@ -21,6 +21,10 @@ func main() {
 	router.HandleFunc("/api/operations", fetchOperations).Methods("GET")
 	router.HandleFunc("/api/operations/{id:[0-9]+}", removeOperation).Methods("DELETE")
 
+	router.HandleFunc("/api/assets", increaseAssets).Queries("amount", "{amount:[0-9]+}").Methods("POST")
+	router.HandleFunc("/api/assets", fetchAssets).Methods("GET")
+	router.HandleFunc("/api/assets", decreaseAssets).Queries("amount", "{amount:[0-9]+}").Methods("DELETE")
+
 	addr := fmt.Sprintf("%s:%s", HOST, PORT)
 	server := &http.Server{
 		Handler:      router,
