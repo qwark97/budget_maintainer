@@ -37,22 +37,12 @@ func addOperation(w http.ResponseWriter, r *http.Request) {
 }
 
 func removeOperation(w http.ResponseWriter, r *http.Request) {
+	var idToRemove int
 	w.Header().Add("Content-Type", "application/json")
 	vars := mux.Vars(r)
-	var idToRemove int
-	if id, ok := vars["id"]; ok {
-		var err error
-		idToRemove, err = strconv.Atoi(id)
-		if err != nil {
-			w.WriteHeader(http.StatusBadRequest)
-			json.NewEncoder(w).Encode("invalid id")
-			return
-		}
-	} else {
-		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode("missing id")
-		return
-	}
+	// Validation privided by mux
+	id, _ := vars["id"]
+	idToRemove, _ = strconv.Atoi(id)
 
 	if err := eraseOperation(idToRemove); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
