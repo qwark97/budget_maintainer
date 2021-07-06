@@ -41,3 +41,7 @@ func main() {
 	log.Printf("serve at: %s\n", addr)
 	log.Fatal(server.ListenAndServe())
 }
+
+func logSystemErr(err error) {
+	log.Printf("ERROR - %s", err.Error())
+}
