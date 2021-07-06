@@ -15,16 +15,16 @@ func addOperation(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&data)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode("invalid request body")
+		logSystemErr(json.NewEncoder(w).Encode("invalid request body"))
 		return
 	}
 
 	if err := model.SaveOperation(data); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode("cannot save operation into DB")
+		logSystemErr(json.NewEncoder(w).Encode("cannot save operation into DB"))
 		return
 	} else {
-		json.NewEncoder(w).Encode("saved operation into DB")
+		logSystemErr(json.NewEncoder(w).Encode("saved operation into DB"))
 	}
 }
 
@@ -37,7 +37,7 @@ func removeOperation(w http.ResponseWriter, r *http.Request) {
 
 	if err := model.DeleteOperation(idToRemove); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode("cannot erase operation with passed id")
+		logSystemErr(json.NewEncoder(w).Encode("cannot erase operation with passed id"))
 	}
 }
 
@@ -46,8 +46,8 @@ func fetchOperations(w http.ResponseWriter, r *http.Request) {
 	operations, err := model.LoadAllOperations()
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode("cannot load operations from DB")
+		logSystemErr(json.NewEncoder(w).Encode("cannot load operations from DB"))
 	} else {
-		json.NewEncoder(w).Encode(operations)
+		logSystemErr(json.NewEncoder(w).Encode(operations))
 	}
 }
