@@ -59,7 +59,7 @@ func fetchAsset(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func fetchAssets(w http.ResponseWriter, r *http.Request) {
+func fetchAssets(w http.ResponseWriter, _ *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
 	if assets, err := loadAssets(); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
