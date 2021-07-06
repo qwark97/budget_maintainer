@@ -41,7 +41,7 @@ func removeOperation(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func fetchOperations(w http.ResponseWriter, r *http.Request) {
+func fetchOperations(w http.ResponseWriter, _ *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
 	operations, err := model.LoadAllOperations()
 	if err != nil {
