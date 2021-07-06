@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	"github.com/gorilla/handlers"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -16,6 +18,7 @@ const (
 
 func main() {
 	router := mux.NewRouter()
+	wrappedHandler := handlers.LoggingHandler(os.Stdout, router)
 
 	router.HandleFunc("/api/operations", addOperation).Methods("POST")
 	router.HandleFunc("/api/operations", fetchOperations).Methods("GET")
@@ -30,7 +33,7 @@ func main() {
 
 	addr := fmt.Sprintf("%s:%s", HOST, PORT)
 	server := &http.Server{
-		Handler:      router,
+		Handler:      wrappedHandler,
 		Addr:         addr,
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
