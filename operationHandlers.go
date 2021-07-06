@@ -2,24 +2,16 @@ package main
 
 import (
 	"encoding/json"
+	"github.com/qwark97/budget_maintainer/model"
 	"net/http"
 	"strconv"
 
 	"github.com/gorilla/mux"
 )
 
-type Operation struct {
-	Category string  `json:"category"`
-	Amount   float64 `json:"amount"`
-
-	ID        int
-	Timestamp int
-}
-type Operations []Operation
-
 func addOperation(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
-	var data Operation
+	var data model.Operation
 	err := json.NewDecoder(r.Body).Decode(&data)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
@@ -27,7 +19,7 @@ func addOperation(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := saveOperation(data); err != nil {
+	if err := model.SaveOperation(data); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode("cannot save operation into DB")
 		return
@@ -43,7 +35,7 @@ func removeOperation(w http.ResponseWriter, r *http.Request) {
 	id, _ := vars["id"]
 	idToRemove, _ = strconv.Atoi(id)
 
-	if err := eraseOperation(idToRemove); err != nil {
+	if err := model.DeleteOperation(idToRemove); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode("cannot erase operation with passed id")
 	}
@@ -51,7 +43,7 @@ func removeOperation(w http.ResponseWriter, r *http.Request) {
 
 func fetchOperations(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
-	operations, err := loadAllOperations()
+	operations, err := model.LoadAllOperations()
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode("cannot load operations from DB")

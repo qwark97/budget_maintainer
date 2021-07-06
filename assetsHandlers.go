@@ -3,20 +3,16 @@ package main
 import (
 	"encoding/json"
 	"github.com/gorilla/mux"
+	"github.com/qwark97/budget_maintainer/model"
 	"net/http"
 	"strconv"
 )
-
-type Assets struct {
-	Name   string `json:"name"`
-	Amount int    `json:"amount"`
-}
 
 func addAsset(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
 	vars := mux.Vars(r)
 	assetName, _ := vars["name"]
-	err := saveAsset(assetName)
+	err := model.SaveAsset(assetName)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		logSystemErr(json.NewEncoder(w).Encode("cannot add such asset"))
@@ -28,7 +24,7 @@ func increaseAssets(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	assetName, _ := vars["name"]
 	amount, _ := strconv.Atoi(r.URL.Query().Get("amount"))
-	err := alterAsset(assetName, amount)
+	err := model.AlterAsset(assetName, amount)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		logSystemErr(json.NewEncoder(w).Encode("cannot increase such asset"))
@@ -40,7 +36,7 @@ func decreaseAssets(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	assetName, _ := vars["name"]
 	amount, _ := strconv.Atoi(r.URL.Query().Get("amount"))
-	err := alterAsset(assetName, -amount)
+	err := model.AlterAsset(assetName, -amount)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		logSystemErr(json.NewEncoder(w).Encode("cannot decrease such asset"))
@@ -51,7 +47,7 @@ func fetchAsset(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
 	vars := mux.Vars(r)
 	assetName, _ := vars["name"]
-	if assets, err := loadAsset(assetName); err != nil {
+	if assets, err := model.LoadAsset(assetName); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		logSystemErr(json.NewEncoder(w).Encode("cannot fetch such asset"))
 	} else {
@@ -61,7 +57,7 @@ func fetchAsset(w http.ResponseWriter, r *http.Request) {
 
 func fetchAssets(w http.ResponseWriter, _ *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
-	if assets, err := loadAssets(); err != nil {
+	if assets, err := model.LoadAssets(); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		logSystemErr(json.NewEncoder(w).Encode("cannot fetch assets"))
 	} else {
@@ -73,7 +69,7 @@ func removeAsset(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
 	vars := mux.Vars(r)
 	assetName, _ := vars["name"]
-	err := deleteAsset(assetName)
+	err := model.DeleteAsset(assetName)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		logSystemErr(json.NewEncoder(w).Encode("cannot delete such asset"))
