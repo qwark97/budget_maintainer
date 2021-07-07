@@ -1,13 +1,17 @@
 package model
 
 func SaveOperation(data Operation) error {
-	return nil
+	res := DBConn.Create(&data)
+	return res.Error
 }
 
 func DeleteOperation(id int) error {
-	return nil
+	res := DBConn.Delete(&Operation{}, id)
+	return res.Error
 }
 
 func LoadAllOperations() (Operations, error) {
-	return Operations{}, nil
+	var operations Operations
+	res := DBConn.Find(&operations)
+	return operations, res.Error
 }
