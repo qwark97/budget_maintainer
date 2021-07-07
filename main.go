@@ -47,5 +47,7 @@ func main() {
 }
 
 func logSystemErr(err error) {
-	log.Printf("ERROR - %s", err.Error())
+	if err != nil {
+		log.Printf("ERROR - %s", err.Error())
+	}
 }
