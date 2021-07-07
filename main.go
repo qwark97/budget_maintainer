@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/gorilla/handlers"
+	"github.com/qwark97/budget_maintainer/model"
 	"log"
 	"net/http"
 	"os"
@@ -17,6 +18,9 @@ const (
 )
 
 func main() {
+	model.InitDatabase()
+	db, _ := model.DBConn.DB()
+	defer db.Close()
 	router := mux.NewRouter()
 	wrappedHandler := handlers.LoggingHandler(os.Stdout, router)
 

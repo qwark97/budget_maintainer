@@ -1,15 +1,15 @@
 package model
 
+import "gorm.io/gorm"
+
 type Operation struct {
+	gorm.Model
 	Category string  `json:"category"`
 	Amount   float64 `json:"amount"`
-
-	ID        int
-	Timestamp int
 }
-type Operations []Operation
 
 type Assets struct {
+	gorm.Model
 	Name   string `json:"name"`
 	Amount int    `json:"amount"`
 }
