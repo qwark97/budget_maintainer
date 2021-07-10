@@ -10,6 +10,6 @@ type Operation struct {
 
 type Assets struct {
 	gorm.Model
-	Name   string `json:"name"`
+	Name   string `json:"name" gorm:"unique"`
 	Amount int    `json:"amount"`
 }
