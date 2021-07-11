@@ -24,6 +24,10 @@ func main() {
 	router := mux.NewRouter()
 	wrappedHandler := handlers.LoggingHandler(os.Stdout, router)
 
+	router.HandleFunc("/api/categories/{name:[a-zA-Z0-9]+}", addCategory).Methods("POST")
+	router.HandleFunc("/api/categories", fetchCategories).Methods("GET")
+	router.HandleFunc("/api/categories/{name:[a-zA-Z0-9]+}", removeCategory).Methods("DELETE")
+
 	router.HandleFunc("/api/operations", addOperation).Methods("POST")
 	router.HandleFunc("/api/operations", fetchOperations).Methods("GET")
 	router.HandleFunc("/api/operations/{id:[0-9]+}", removeOperation).Methods("DELETE")
