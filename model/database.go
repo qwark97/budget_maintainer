@@ -30,6 +30,7 @@ func InitDatabase() {
 	err = DBConn.AutoMigrate(
 		&Operation{},
 		&Assets{},
+		&Category{},
 	)
 	if err != nil {
 		panic(fmt.Sprintf("cannot migrate: %s", err.Error()))

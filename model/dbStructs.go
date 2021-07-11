@@ -13,3 +13,8 @@ type Assets struct {
 	Name   string `json:"name" gorm:"unique"`
 	Amount int    `json:"amount"`
 }
+
+type Category struct {
+	gorm.Model
+	Name string `gorm:"unique"`
+}
