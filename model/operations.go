@@ -1,6 +1,9 @@
 package model
 
 func SaveOperation(data Operation) error {
+	if _, err := LoadCategory(data.Category); err != nil {
+		return err
+	}
 	res := DBConn.Create(&data)
 	return res.Error
 }
