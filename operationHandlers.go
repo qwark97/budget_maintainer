@@ -5,6 +5,7 @@ import (
 	"github.com/qwark97/budget_maintainer/model"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/gorilla/mux"
 )
@@ -15,6 +16,19 @@ func addOperation(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&data)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
+		logSystemErr(json.NewEncoder(w).Encode("invalid request body"))
+		return
+	}
+
+	if data.Year == 0 {
+		data.Year = time.Now().Year()
+	} else if data.Year < 0 {
+		logSystemErr(json.NewEncoder(w).Encode("invalid request body"))
+		return
+	}
+	if data.Month == 0 {
+		data.Month = time.Now().Month()
+	} else if data.Month < 0 {
 		logSystemErr(json.NewEncoder(w).Encode("invalid request body"))
 		return
 	}
