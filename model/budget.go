@@ -1,5 +1,16 @@
 package model
 
-func SetBudget(data TransitBudget) error { return nil }
+import (
+	"encoding/json"
+	"io"
+)
 
-func LoadBudget(year, month string) (TransitBudget, error) { return TransitBudget{}, nil }
+func NewTransitBudget(body io.ReadCloser) (transitBudget, error) {
+	var data transitBudget
+	err := json.NewDecoder(body).Decode(&data)
+	return data, err
+}
+
+func SetBudget(data transitBudget) error { return nil }
+
+func LoadBudget(year, month string) (transitBudget, error) { return transitBudget{}, nil }

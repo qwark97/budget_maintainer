@@ -13,20 +13,20 @@ type baseMoneyStruct struct {
 	Month    time.Month `json:"month"`
 }
 
-type Operation baseMoneyStruct
+type operation baseMoneyStruct
 
-type BudgetPosition struct {
+type budgetPosition struct {
 	baseMoneyStruct
 	Group string `json:"group"`
 }
 
-type Assets struct {
+type assets struct {
 	gorm.Model
 	Name   string `json:"name" gorm:"unique"`
 	Amount int    `json:"amount"`
 }
 
-type Category struct {
+type category struct {
 	gorm.Model
 	Name string `gorm:"unique"`
 }

@@ -28,10 +28,10 @@ func InitDatabase() {
 	log.Println("Connection Opened to Database")
 
 	err = DBConn.AutoMigrate(
-		&Operation{},
-		&Assets{},
-		&Category{},
-		&BudgetPosition{},
+		&operation{},
+		&assets{},
+		&category{},
+		&budgetPosition{},
 	)
 	if err != nil {
 		panic(fmt.Sprintf("cannot migrate: %s", err.Error()))

@@ -3,35 +3,35 @@ package model
 import "fmt"
 
 func SaveCategory(categoryName string) error {
-	res := DBConn.Create(&Category{Name: categoryName})
+	res := DBConn.Create(&category{Name: categoryName})
 	return res.Error
 }
 
 func DeleteCategory(categoryName string) error {
-	var category Category
-	if fetchRes := DBConn.Where("name = ?", categoryName).Find(&category); fetchRes.Error != nil {
+	var c category
+	if fetchRes := DBConn.Where("name = ?", categoryName).Find(&c); fetchRes.Error != nil {
 		return fetchRes.Error
 	}
-	if category.Name == "" {
+	if c.Name == "" {
 		return fmt.Errorf("did not find such category")
 	}
-	res := DBConn.Unscoped().Delete(&category)
+	res := DBConn.Unscoped().Delete(&c)
 	return res.Error
 }
 
-func LoadCategory(categoryName string) (Category, error) {
-	var category Category
-	if fetchRes := DBConn.Where("name = ?", categoryName).Find(&category); fetchRes.Error != nil {
-		return Category{}, fetchRes.Error
+func LoadCategory(categoryName string) (category, error) {
+	var c category
+	if fetchRes := DBConn.Where("name = ?", categoryName).Find(&c); fetchRes.Error != nil {
+		return category{}, fetchRes.Error
 	}
-	if category.Name == "" {
-		return Category{}, fmt.Errorf("did not find such category")
+	if c.Name == "" {
+		return category{}, fmt.Errorf("did not find such category")
 	}
-	return category, nil
+	return c, nil
 }
 
-func LoadAllCategories() (Categories, error) {
-	var operations Categories
+func LoadAllCategories() (categories, error) {
+	var operations categories
 	res := DBConn.Find(&operations)
 	return operations, res.Error
 }

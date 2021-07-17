@@ -3,7 +3,7 @@ package model
 import "fmt"
 
 func SaveAsset(assetName string) error {
-	asset := Assets{
+	asset := assets{
 		Name:   assetName,
 		Amount: 0,
 	}
@@ -12,7 +12,7 @@ func SaveAsset(assetName string) error {
 }
 
 func AlterAsset(assetName string, amount int) error {
-	var asset Assets
+	var asset assets
 	if fetchRes := DBConn.Where("name = ?", assetName).Find(&asset); fetchRes.Error != nil {
 		return fetchRes.Error
 	}
@@ -25,27 +25,27 @@ func AlterAsset(assetName string, amount int) error {
 	return saveRes.Error
 }
 
-func LoadAsset(assetName string) (Assets, error) {
-	var asset Assets
+func LoadAsset(assetName string) (assets, error) {
+	var asset assets
 	if fetchRes := DBConn.Where("name = ?", assetName).Find(&asset); fetchRes.Error != nil {
-		return Assets{}, fetchRes.Error
+		return assets{}, fetchRes.Error
 	}
 	if asset.Name == "" {
-		return Assets{}, fmt.Errorf("did not find such asset")
+		return assets{}, fmt.Errorf("did not find such asset")
 	}
 	return asset, nil
 }
 
-func LoadAssets() ([]Assets, error) {
-	var assets []Assets
-	if fetchRes := DBConn.Find(&assets); fetchRes.Error != nil {
-		return []Assets{}, fetchRes.Error
+func LoadAssets() ([]assets, error) {
+	var a []assets
+	if fetchRes := DBConn.Find(&a); fetchRes.Error != nil {
+		return []assets{}, fetchRes.Error
 	}
-	return assets, nil
+	return a, nil
 }
 
 func DeleteAsset(assetName string) error {
-	var asset Assets
+	var asset assets
 	if fetchRes := DBConn.Where("name = ?", assetName).Find(&asset); fetchRes.Error != nil {
 		return fetchRes.Error
 	}

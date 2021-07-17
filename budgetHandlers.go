@@ -10,8 +10,7 @@ import (
 
 func addBudget(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
-	var data model.TransitBudget
-	err := json.NewDecoder(r.Body).Decode(&data)
+	data, err := model.NewTransitBudget(r.Body)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		logSystemErr(json.NewEncoder(w).Encode("invalid request body"))

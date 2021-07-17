@@ -1,6 +1,17 @@
 package model
 
-func SaveOperation(data Operation) error {
+import (
+	"encoding/json"
+	"io"
+)
+
+func NewOperation(body io.ReadCloser) (operation, error) {
+	var data operation
+	err := json.NewDecoder(body).Decode(&data)
+	return data, err
+}
+
+func SaveOperation(data operation) error {
 	if _, err := LoadCategory(data.Category); err != nil {
 		return err
 	}
@@ -9,12 +20,12 @@ func SaveOperation(data Operation) error {
 }
 
 func DeleteOperation(id int) error {
-	res := DBConn.Delete(&Operation{}, id)
+	res := DBConn.Delete(&operation{}, id)
 	return res.Error
 }
 
-func LoadAllOperations() (Operations, error) {
-	var operations Operations
+func LoadAllOperations() (operations, error) {
+	var operations operations
 	res := DBConn.Find(&operations)
 	return operations, res.Error
 }

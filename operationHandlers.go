@@ -12,8 +12,7 @@ import (
 
 func addOperation(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
-	var data model.Operation
-	err := json.NewDecoder(r.Body).Decode(&data)
+	data, err := model.NewOperation(r.Body)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		logSystemErr(json.NewEncoder(w).Encode("invalid request body"))

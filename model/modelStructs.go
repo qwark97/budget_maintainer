@@ -2,11 +2,11 @@ package model
 
 import "time"
 
-type Operations []Operation
+type operations []operation
 
-type Categories []Category
+type categories []category
 
-type TransitBudget struct {
+type transitBudget struct {
 	Year            int                     `json:"year"`
 	Month           time.Month              `json:"month"`
 	BudgetPositions []transitBudgetPosition `json:"budget_positions"`
