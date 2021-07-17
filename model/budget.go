@@ -13,4 +13,4 @@ func NewTransitBudget(body io.ReadCloser) (transitBudget, error) {
 
 func SetBudget(data transitBudget) error { return nil }
 
-func LoadBudget(year, month string) (transitBudget, error) { return transitBudget{}, nil }
+func LoadBudget(year, month int) (transitBudget, error) { return transitBudget{}, nil }
