@@ -5,12 +5,19 @@ import (
 	"time"
 )
 
-type Operation struct {
+type baseMoneyStruct struct {
 	gorm.Model
 	Category string     `json:"category"`
 	Amount   float64    `json:"amount"`
 	Year     int        `json:"year"`
 	Month    time.Month `json:"month"`
+}
+
+type Operation baseMoneyStruct
+
+type BudgetPosition struct {
+	baseMoneyStruct
+	Group string `json:"group"`
 }
 
 type Assets struct {

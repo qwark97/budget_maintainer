@@ -31,6 +31,7 @@ func InitDatabase() {
 		&Operation{},
 		&Assets{},
 		&Category{},
+		&BudgetPosition{},
 	)
 	if err != nil {
 		panic(fmt.Sprintf("cannot migrate: %s", err.Error()))
