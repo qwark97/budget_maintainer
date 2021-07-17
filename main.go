@@ -39,6 +39,9 @@ func main() {
 	router.HandleFunc("/api/assets", fetchAssets).Methods("GET")
 	router.HandleFunc("/api/assets/{name:[a-zA-Z0-9]+}", removeAsset).Methods("DELETE")
 
+	router.HandleFunc("/api/budget", addBudget).Methods("POST")
+	router.HandleFunc("/api/budget/{year:[a-zA-Z]+}/{month:[a-zA-Z]+}", fetchBudget).Methods("GET")
+
 	addr := fmt.Sprintf("%s:%s", HOST, PORT)
 	server := &http.Server{
 		Handler:      wrappedHandler,
