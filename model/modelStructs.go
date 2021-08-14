@@ -1,7 +1,6 @@
 package model
 
 import (
-	"fmt"
 	"time"
 )
 
@@ -34,7 +33,6 @@ func (mbp *manyBudgetPositions) mergeCategories() {
 	var categories = make(map[string]func() func(amount float64) *budgetPosition)
 
 	for i := range mbp.elements {
-		fmt.Println(mbp.elements[i].Category)
 		if f, ok := categories[mbp.elements[i].Category]; ok {
 			f()(mbp.elements[i].Amount)
 		} else {
