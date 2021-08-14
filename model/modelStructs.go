@@ -1,6 +1,8 @@
 package model
 
-import "time"
+import (
+	"time"
+)
 
 type operations []operation
 
@@ -16,4 +18,8 @@ type transitBudgetPosition struct {
 	Amount   float64 `json:"amount"`
 	Category string  `json:"category"`
 	Group    string  `json:"group"`
+}
+
+type manyBudgetPositions struct {
+	elements []budgetPosition
 }
