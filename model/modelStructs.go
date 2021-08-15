@@ -4,9 +4,22 @@ import (
 	"time"
 )
 
-type operations []operation
+type operations struct {
+	Elements []operation
+}
 
-type categories []category
+type categories struct {
+	Elements []category
+}
+
+func (c *categories) isKnownCategory(catToCheck string) bool {
+	for _, cat := range c.Elements {
+		if cat.Name == catToCheck {
+			return true
+		}
+	}
+	return false
+}
 
 type transitBudget struct {
 	Year            int                     `json:"year"`

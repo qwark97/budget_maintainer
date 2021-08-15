@@ -12,11 +12,20 @@ func NewTransitBudget(body io.ReadCloser) (transitBudget, error) {
 }
 
 func SetBudget(data transitBudget) error {
+	var validCategories categories
 	budgetPositions := manyBudgetPositions{}
 	year := data.Year
 	month := data.Month
+	if categories, err := LoadAllCategories(); err != nil {
+		return err
+	} else {
+		validCategories = categories
+	}
 
 	for _, transitPosition := range data.BudgetPositions {
+		if !validCategories.isKnownCategory(transitPosition.Category) {
+			return UnknownCategoryError
+		}
 		p := budgetPosition{
 			Category: transitPosition.Category,
 			Amount:   transitPosition.Amount,

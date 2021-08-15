@@ -2,6 +2,8 @@ package model
 
 import "fmt"
 
+var UnknownCategoryError = fmt.Errorf("unknown category")
+
 func SaveCategory(categoryName string) error {
 	res := DBConn.Create(&category{Name: categoryName})
 	return res.Error
@@ -32,6 +34,6 @@ func LoadCategory(categoryName string) (category, error) {
 
 func LoadAllCategories() (categories, error) {
 	var operations categories
-	res := DBConn.Find(&operations)
+	res := DBConn.Find(&operations.Elements)
 	return operations, res.Error
 }

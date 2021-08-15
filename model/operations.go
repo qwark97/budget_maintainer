@@ -26,6 +26,6 @@ func DeleteOperation(id int) error {
 
 func LoadAllOperations() (operations, error) {
 	var operations operations
-	res := DBConn.Find(&operations)
+	res := DBConn.Find(&operations.Elements)
 	return operations, res.Error
 }

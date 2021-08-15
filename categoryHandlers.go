@@ -39,6 +39,6 @@ func fetchCategories(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		logSystemErr(json.NewEncoder(w).Encode("cannot load categories from DB"))
 	} else {
-		logSystemErr(json.NewEncoder(w).Encode(categories))
+		logSystemErr(json.NewEncoder(w).Encode(categories.Elements))
 	}
 }

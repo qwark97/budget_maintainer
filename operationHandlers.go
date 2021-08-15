@@ -61,6 +61,6 @@ func fetchOperations(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		logSystemErr(json.NewEncoder(w).Encode("cannot load operations from DB"))
 	} else {
-		logSystemErr(json.NewEncoder(w).Encode(operations))
+		logSystemErr(json.NewEncoder(w).Encode(operations.Elements))
 	}
 }
