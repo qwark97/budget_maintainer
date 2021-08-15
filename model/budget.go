@@ -3,6 +3,7 @@ package model
 import (
 	"encoding/json"
 	"io"
+	"time"
 )
 
 func NewTransitBudget(body io.ReadCloser) (transitBudget, error) {
@@ -50,4 +51,27 @@ func SetBudget(data transitBudget) error {
 	return nil
 }
 
-func LoadBudget(year, month int) (transitBudget, error) { return transitBudget{}, nil }
+func LoadBudget(year, month int) (transitBudget, error) {
+	result := transitBudget{
+		Year:  year,
+		Month: time.Month(month),
+	}
+	var budgetPositions []budgetPosition
+	var transitBudgetPositions []transitBudgetPosition
+	if dbRes := DBConn.
+		Where("year = ?", year).
+		Where("month = ?", month).
+		Find(&budgetPositions); dbRes.Error != nil {
+		return result, dbRes.Error
+	}
+	for _, bp := range budgetPositions {
+		tbp := transitBudgetPosition{
+			Amount:   bp.Amount,
+			Category: bp.Category,
+			Group:    bp.Group,
+		}
+		transitBudgetPositions = append(transitBudgetPositions, tbp)
+	}
+	result.BudgetPositions = transitBudgetPositions
+	return result, nil
+}
