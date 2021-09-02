@@ -11,6 +11,5 @@ ENTRYPOINT ["/app/app"]
 EXPOSE 9999
 ENV BM_HOST=0.0.0.0
 ENV BM_PORT=9999
-ENV TZ=Europe/Warsaw
 COPY --from=builder --chown=1000:1000 /go/src/app/app .
 USER 1000:1000
