@@ -26,6 +26,8 @@ services:
       POSTGRES_DB: *bm_db_name
       POSTGRES_USER: *bm_db_user
       POSTGRES_PASSWORD: *bm_db_pass
+    volumes: 
+      - budget_db:/var/lib/postgresql/data
     networks: 
       - backend_db
       
@@ -35,6 +37,6 @@ volumes:
 
 networks:
   backend_db:
-    name: backend_db
+    name: bm_backend_db
   frontend_db:
-    name: frontend_db
+    name: bm_frontend_db
