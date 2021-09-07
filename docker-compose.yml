@@ -1,0 +1,40 @@
+version: '3.8'
+
+x-project-vars:
+  - &bm_db_pass "${BM_DB_PASS}"
+  - &bm_db_user "${BM_DB_USER}"
+  - &bm_db_name "${BM_DB_NAME}"
+
+services: 
+  budget_maintainer:
+    container_name: budget_maintainer
+    build: .
+    image: ghcr.io/qwark97/budget_maintainer
+    ports: 
+      - 127.0.0.1:9999:9999
+    env_file: .env
+    networks: 
+      - backend_db
+      - frontend_db
+    depends_on: 
+      - postgres
+
+  postgres:
+    container_name: postgres
+    image: postgres:13.4
+    environment: 
+      POSTGRES_DB: *bm_db_name
+      POSTGRES_USER: *bm_db_user
+      POSTGRES_PASSWORD: *bm_db_pass
+    networks: 
+      - backend_db
+      
+volumes:
+  budget_db:
+    name: budget_db
+
+networks:
+  backend_db:
+    name: backend_db
+  frontend_db:
+    name: frontend_db
