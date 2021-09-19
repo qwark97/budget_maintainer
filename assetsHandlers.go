@@ -10,6 +10,7 @@ import (
 
 func addAsset(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
+	w.Header().Add("Access-Control-Allow-Origin", ALLOW_ORIGIN)
 	vars := mux.Vars(r)
 	assetName, _ := vars["name"]
 	err := model.SaveAsset(assetName)
@@ -21,6 +22,7 @@ func addAsset(w http.ResponseWriter, r *http.Request) {
 
 func increaseAssets(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
+	w.Header().Add("Access-Control-Allow-Origin", ALLOW_ORIGIN)
 	vars := mux.Vars(r)
 	assetName, _ := vars["name"]
 	amount, _ := strconv.Atoi(r.URL.Query().Get("amount"))
@@ -33,6 +35,7 @@ func increaseAssets(w http.ResponseWriter, r *http.Request) {
 
 func decreaseAssets(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
+	w.Header().Add("Access-Control-Allow-Origin", ALLOW_ORIGIN)
 	vars := mux.Vars(r)
 	assetName, _ := vars["name"]
 	amount, _ := strconv.Atoi(r.URL.Query().Get("amount"))
@@ -45,6 +48,7 @@ func decreaseAssets(w http.ResponseWriter, r *http.Request) {
 
 func fetchAsset(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
+	w.Header().Add("Access-Control-Allow-Origin", ALLOW_ORIGIN)
 	vars := mux.Vars(r)
 	assetName, _ := vars["name"]
 	if assets, err := model.LoadAsset(assetName); err != nil {
@@ -57,6 +61,7 @@ func fetchAsset(w http.ResponseWriter, r *http.Request) {
 
 func fetchAssets(w http.ResponseWriter, _ *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
+	w.Header().Add("Access-Control-Allow-Origin", ALLOW_ORIGIN)
 	if assets, err := model.LoadAssets(); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		logSystemErr(json.NewEncoder(w).Encode("cannot fetch assets"))
@@ -67,6 +72,7 @@ func fetchAssets(w http.ResponseWriter, _ *http.Request) {
 
 func removeAsset(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
+	w.Header().Add("Access-Control-Allow-Origin", ALLOW_ORIGIN)
 	vars := mux.Vars(r)
 	assetName, _ := vars["name"]
 	err := model.DeleteAsset(assetName)

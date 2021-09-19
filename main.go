@@ -14,9 +14,10 @@ import (
 )
 
 var (
-	HOST   string
-	PORT   string
-	dbConf model.DBConf
+	HOST         string
+	PORT         string
+	dbConf       model.DBConf
+	ALLOW_ORIGIN = "*"
 )
 
 func main() {

@@ -9,6 +9,7 @@ import (
 
 func addCategory(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
+	w.Header().Add("Access-Control-Allow-Origin", ALLOW_ORIGIN)
 	vars := mux.Vars(r)
 	categoryName, _ := vars["name"]
 
@@ -23,6 +24,7 @@ func addCategory(w http.ResponseWriter, r *http.Request) {
 
 func removeCategory(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
+	w.Header().Add("Access-Control-Allow-Origin", ALLOW_ORIGIN)
 	vars := mux.Vars(r)
 	categoryName, _ := vars["name"]
 
@@ -34,6 +36,7 @@ func removeCategory(w http.ResponseWriter, r *http.Request) {
 
 func fetchCategories(w http.ResponseWriter, _ *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
+	w.Header().Add("Access-Control-Allow-Origin", ALLOW_ORIGIN)
 	categories, err := model.LoadAllCategories()
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
