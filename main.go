@@ -26,6 +26,8 @@ func main() {
 	db, _ := model.DBConn.DB()
 	defer db.Close()
 	router := mux.NewRouter()
+	router.Use(headersMiddleware)
+
 	wrappedHandler := handlers.LoggingHandler(os.Stdout, router)
 
 	router.HandleFunc("/api/categories/{name:[a-zA-Z0-9]+}", addCategory).Methods("POST")

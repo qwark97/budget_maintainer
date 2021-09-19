@@ -10,8 +10,6 @@ import (
 )
 
 func addBudget(w http.ResponseWriter, r *http.Request) {
-	w.Header().Add("Content-Type", "application/json")
-	w.Header().Add("Access-Control-Allow-Origin", ALLOW_ORIGIN)
 	data, err := model.NewTransitBudget(r.Body)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
@@ -42,8 +40,6 @@ func addBudget(w http.ResponseWriter, r *http.Request) {
 }
 
 func fetchBudget(w http.ResponseWriter, r *http.Request) {
-	w.Header().Add("Content-Type", "application/json")
-	w.Header().Add("Access-Control-Allow-Origin", ALLOW_ORIGIN)
 	vars := mux.Vars(r)
 	year, _ := vars["year"]
 	month, _ := vars["month"]

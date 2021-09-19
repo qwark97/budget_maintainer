@@ -11,8 +11,6 @@ import (
 )
 
 func addOperation(w http.ResponseWriter, r *http.Request) {
-	w.Header().Add("Content-Type", "application/json")
-	w.Header().Add("Access-Control-Allow-Origin", ALLOW_ORIGIN)
 	data, err := model.NewOperation(r.Body)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
@@ -44,8 +42,6 @@ func addOperation(w http.ResponseWriter, r *http.Request) {
 
 func removeOperation(w http.ResponseWriter, r *http.Request) {
 	var idToRemove int
-	w.Header().Add("Content-Type", "application/json")
-	w.Header().Add("Access-Control-Allow-Origin", ALLOW_ORIGIN)
 	vars := mux.Vars(r)
 	id, _ := vars["id"]
 	idToRemove, _ = strconv.Atoi(id)
@@ -57,8 +53,6 @@ func removeOperation(w http.ResponseWriter, r *http.Request) {
 }
 
 func fetchOperations(w http.ResponseWriter, _ *http.Request) {
-	w.Header().Add("Content-Type", "application/json")
-	w.Header().Add("Access-Control-Allow-Origin", ALLOW_ORIGIN)
 	operations, err := model.LoadAllOperations()
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
