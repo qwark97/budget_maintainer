@@ -12,9 +12,6 @@ func NewOperation(body io.ReadCloser) (operation, error) {
 }
 
 func SaveOperation(data operation) error {
-	if _, err := LoadCategory(data.Category); err != nil {
-		return err
-	}
 	res := DBConn.Create(&data)
 	return res.Error
 }

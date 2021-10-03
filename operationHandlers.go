@@ -30,6 +30,11 @@ func addOperation(w http.ResponseWriter, r *http.Request) {
 		logSystemErr(json.NewEncoder(w).Encode("invalid request body"))
 		return
 	}
+	if _, err := model.LoadCategory(data.Category); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		logSystemErr(json.NewEncoder(w).Encode("passed category is invalid"))
+		return
+	}
 
 	if err := model.SaveOperation(data); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
