@@ -2,7 +2,9 @@ package model
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
+	"math"
 )
 
 func NewOperation(body io.ReadCloser) (operation, error) {
@@ -12,6 +14,10 @@ func NewOperation(body io.ReadCloser) (operation, error) {
 }
 
 func SaveOperation(data operation) error {
+	data.Amount = math.Round(data.Amount*100) / 100
+	if data.Amount <= 0 {
+		return fmt.Errorf("operation's amount must be higher or equal than 0.01")
+	}
 	res := DBConn.Create(&data)
 	return res.Error
 }
