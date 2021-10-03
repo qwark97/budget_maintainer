@@ -31,20 +31,20 @@ func main() {
 
 	wrappedHandler := handlers.LoggingHandler(os.Stdout, router)
 
-	router.HandleFunc("/api/categories/{name:[a-zA-Z0-9]+}", addCategory).Methods("POST", "OPTIONS")
+	router.HandleFunc("/api/categories/{name}", addCategory).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/categories", fetchCategories).Methods("GET", "OPTIONS")
-	router.HandleFunc("/api/categories/{name:[a-zA-Z0-9]+}", removeCategory).Methods("DELETE", "OPTIONS")
+	router.HandleFunc("/api/categories/{name}", removeCategory).Methods("DELETE", "OPTIONS")
 
 	router.HandleFunc("/api/operations", addOperation).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/operations", fetchOperations).Methods("GET", "OPTIONS")
 	router.HandleFunc("/api/operations/{id:[0-9]+}", removeOperation).Methods("DELETE", "OPTIONS")
 
-	router.HandleFunc("/api/assets/{name:[a-zA-Z0-9]+}", addAsset).Methods("POST", "OPTIONS")
-	router.HandleFunc("/api/assets/{name:[a-zA-Z0-9]+}/increase", increaseAssets).Queries("amount", "{amount:[0-9]+}").Methods("PUT", "OPTIONS")
-	router.HandleFunc("/api/assets/{name:[a-zA-Z0-9]+}/decrease", decreaseAssets).Queries("amount", "{amount:[0-9]+}").Methods("PUT", "OPTIONS")
-	router.HandleFunc("/api/assets/{name:[a-zA-Z0-9]+}", fetchAsset).Methods("GET", "OPTIONS")
+	router.HandleFunc("/api/assets/{name}", addAsset).Methods("POST", "OPTIONS")
+	router.HandleFunc("/api/assets/{name}/increase", increaseAssets).Queries("amount", "{amount:[0-9]+}").Methods("PUT", "OPTIONS")
+	router.HandleFunc("/api/assets/{name}/decrease", decreaseAssets).Queries("amount", "{amount:[0-9]+}").Methods("PUT", "OPTIONS")
+	router.HandleFunc("/api/assets/{name}", fetchAsset).Methods("GET", "OPTIONS")
 	router.HandleFunc("/api/assets", fetchAssets).Methods("GET", "OPTIONS")
-	router.HandleFunc("/api/assets/{name:[a-zA-Z0-9]+}", removeAsset).Methods("DELETE", "OPTIONS")
+	router.HandleFunc("/api/assets/{name}", removeAsset).Methods("DELETE", "OPTIONS")
 
 	router.HandleFunc("/api/budget", addBudget).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/budget/{year:[0-9]+}/{month:[0-9]+}", fetchBudget).Methods("GET", "OPTIONS")
