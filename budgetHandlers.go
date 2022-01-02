@@ -2,16 +2,18 @@ package main
 
 import (
 	"encoding/json"
-	"github.com/gorilla/mux"
-	"github.com/qwark97/budget_maintainer/model"
 	"net/http"
 	"strconv"
 	"time"
+
+	"github.com/gorilla/mux"
+	"github.com/qwark97/budget_maintainer/model"
 )
 
 func addBudget(w http.ResponseWriter, r *http.Request) {
 	data, err := model.NewTransitBudget(r.Body)
 	if err != nil {
+		logSystemErr(err)
 		w.WriteHeader(http.StatusBadRequest)
 		logSystemErr(json.NewEncoder(w).Encode("invalid request body"))
 		return
@@ -31,6 +33,7 @@ func addBudget(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := model.SetBudget(data); err != nil {
+		logSystemErr(err)
 		w.WriteHeader(http.StatusBadRequest)
 		logSystemErr(json.NewEncoder(w).Encode("cannot save budget position into DB"))
 		return
@@ -58,6 +61,7 @@ func fetchBudget(w http.ResponseWriter, r *http.Request) {
 	budget, err := model.LoadBudget(yearToFetch, monthToFetch)
 
 	if err != nil {
+		logSystemErr(err)
 		w.WriteHeader(http.StatusBadRequest)
 		logSystemErr(json.NewEncoder(w).Encode("cannot load budget from DB"))
 	} else {

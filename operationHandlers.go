@@ -2,10 +2,11 @@ package main
 
 import (
 	"encoding/json"
-	"github.com/qwark97/budget_maintainer/model"
 	"net/http"
 	"strconv"
 	"time"
+
+	"github.com/qwark97/budget_maintainer/model"
 
 	"github.com/gorilla/mux"
 )
@@ -13,6 +14,7 @@ import (
 func addOperation(w http.ResponseWriter, r *http.Request) {
 	data, err := model.NewOperation(r.Body)
 	if err != nil {
+		logSystemErr(err)
 		w.WriteHeader(http.StatusBadRequest)
 		logSystemErr(json.NewEncoder(w).Encode("invalid request body"))
 		return
@@ -31,12 +33,14 @@ func addOperation(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if _, err := model.LoadCategory(data.Category); err != nil {
+		logSystemErr(err)
 		w.WriteHeader(http.StatusBadRequest)
 		logSystemErr(json.NewEncoder(w).Encode("passed category is invalid"))
 		return
 	}
 
 	if err := model.SaveOperation(data); err != nil {
+		logSystemErr(err)
 		w.WriteHeader(http.StatusBadRequest)
 		logSystemErr(json.NewEncoder(w).Encode("cannot save operation into DB"))
 		return
@@ -52,6 +56,7 @@ func removeOperation(w http.ResponseWriter, r *http.Request) {
 	idToRemove, _ = strconv.Atoi(id)
 
 	if err := model.DeleteOperation(idToRemove); err != nil {
+		logSystemErr(err)
 		w.WriteHeader(http.StatusBadRequest)
 		logSystemErr(json.NewEncoder(w).Encode("cannot erase operation with passed id"))
 	}
@@ -60,6 +65,7 @@ func removeOperation(w http.ResponseWriter, r *http.Request) {
 func fetchOperations(w http.ResponseWriter, _ *http.Request) {
 	operations, err := model.LoadAllOperations()
 	if err != nil {
+		logSystemErr(err)
 		w.WriteHeader(http.StatusBadRequest)
 		logSystemErr(json.NewEncoder(w).Encode("cannot load operations from DB"))
 	} else {

@@ -2,9 +2,10 @@ package main
 
 import (
 	"encoding/json"
+	"net/http"
+
 	"github.com/gorilla/mux"
 	"github.com/qwark97/budget_maintainer/model"
-	"net/http"
 )
 
 func addCategory(w http.ResponseWriter, r *http.Request) {
@@ -12,6 +13,7 @@ func addCategory(w http.ResponseWriter, r *http.Request) {
 	categoryName, _ := vars["name"]
 
 	if err := model.SaveCategory(categoryName); err != nil {
+		logSystemErr(err)
 		w.WriteHeader(http.StatusBadRequest)
 		logSystemErr(json.NewEncoder(w).Encode("cannot save category into DB"))
 		return
@@ -25,6 +27,7 @@ func removeCategory(w http.ResponseWriter, r *http.Request) {
 	categoryName, _ := vars["name"]
 
 	if err := model.DeleteCategory(categoryName); err != nil {
+		logSystemErr(err)
 		w.WriteHeader(http.StatusBadRequest)
 		logSystemErr(json.NewEncoder(w).Encode("cannot erase category with passed name"))
 	}
@@ -33,6 +36,7 @@ func removeCategory(w http.ResponseWriter, r *http.Request) {
 func fetchCategories(w http.ResponseWriter, _ *http.Request) {
 	categories, err := model.LoadAllCategories()
 	if err != nil {
+		logSystemErr(err)
 		w.WriteHeader(http.StatusBadRequest)
 		logSystemErr(json.NewEncoder(w).Encode("cannot load categories from DB"))
 	} else {
